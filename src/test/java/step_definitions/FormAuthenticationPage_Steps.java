@@ -1,10 +1,9 @@
 package step_definitions;
 
 import browser.BrowserManager;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.options.AriaRole;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
+import pages.FormLoginPageObject;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -13,37 +12,33 @@ import static org.testng.AssertJUnit.assertTrue;
 public class FormAuthenticationPage_Steps {
 
     public BrowserManager browserManager;
+    public FormLoginPageObject loginPage;
 
     public FormAuthenticationPage_Steps(BrowserManager browserManager){
         this.browserManager = browserManager;
+        this.loginPage = new FormLoginPageObject(browserManager);
     }
 
-    @And("I type username")
-    public void i_type_username() {
-        System.out.println(" Username Field");
-        browserManager.page.getByLabel("Username").fill("tomsmith");
+    @And("I type username {string}")
+    public void i_type_username(String uname) {
+        loginPage.enterUname(uname);
     }
-    @Then("I type password")
-    public void i_type_password() {
-        System.out.println("Password Field");
-        browserManager.page.getByLabel("Password").fill("SuperSecretPassword!");
+    @Then("I type password {string}")
+    public void i_type_password(String pwd) {
+        loginPage.enterPassword(pwd);
     }
     @Then("I click on Login")
     public void i_click_on_login() {
-        System.out.println("Login button");
-        browserManager.page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login")).click();
+        loginPage.clickOnLogin();
     }
-    @Then("I should be presented with the Successfull login message")
-    public void i_should_be_presented_with_the_successfull_login_message() {
-        System.out.println("Successfull Message");
-        String actualSuccessMsg = browserManager.page.locator("//h4[@class='subheader']").textContent();
-        assertEquals("Welcome to the Secure Area. When you are done click logout below.",actualSuccessMsg);
+    @Then("I should be presented with the Successfull login message {string}")
+    public void i_should_be_presented_with_the_successfull_login_message(String msg) {
+        loginPage.validateLogin(msg);
     }
 
     @And("I Log out")
     public void i_log_out(){
-        System.out.println("Log out");
-        browserManager.page.locator("//i[contains(text(),'Logout')]").click();
+        loginPage.clickOnLogout();
     }
 
 
