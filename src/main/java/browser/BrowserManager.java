@@ -19,7 +19,7 @@ public class BrowserManager {
         int height = (int) screensize.getHeight();
 
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(500));
         context = browser.newContext(new Browser.NewContextOptions().setViewportSize(width,height));
         page = context.newPage();
     }

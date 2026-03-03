@@ -7,3 +7,4 @@ Feature: Internet Herokuapp Portal
     And I type password
     And I click on Login
     Then I should be presented with the Successfull login message
+    And I Log out
